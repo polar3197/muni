@@ -4,9 +4,9 @@ from functools import lru_cache
 class PostgreSQLConfig(BaseSettings):
     host: str
     port: int = 5432
-    user: str
+    user: str = ""
     name: str
-    password: str
+    password: str = ""
 
     model_config = SettingsConfigDict(
         env_prefix="DB_",
