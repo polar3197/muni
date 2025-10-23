@@ -1,4 +1,5 @@
 from database.queries import PostgreSQLQueries
+from config import PostgreSQLConfig
 from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy import text
 from functools import partial, cached_property
@@ -7,29 +8,15 @@ import asyncio
 
 class PostgreSQLClient():
 
-    def __init__(
-        self,
-        host,
-        database,
-        user,
-        password,
-        port,
-        retry_count
-    ):
-        self.host = host
-        self.database = database
-        self.user = user
-        self.password = password
-        self.port = port
-        self.queries = PostgreSQLQueries()
+    # In database/client.py __init__
+    def __init__(self, config: PostgreSQLConfig, retry_count: int = 3):
+        self.connection_string = config.connection_string  # Use pre-built string
         self.retry_count = retry_count
+        # Don't need individual host, user, etc.
 
     @cached_property
     def engine(self):
-        connection_string = f"postgresql+asyncpg://{self.user}:{quote_plus(self.password)}@{self.host}:{self.port}/{self.database}"
-        return create_async_engine(
-            connection_string,
-        )
+        return create_async_engine(self.connection_string)
 
     async def get_result(self, query: str):
         try:

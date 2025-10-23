@@ -10,14 +10,7 @@ async def main():
 
     print(f"Connecting to: {config.host}:{config.port}/{config.name}")
 
-    client = PostgreSQLClient(
-        host=config.host,
-        database=config.name,
-        user=config.user,
-        password=config.password,
-        port=config.port,
-        retry_count=3
-    )
+    client = PostgreSQLClient(config, retry_count=2)
 
     result = await client.ping()
     print(f"Ping successful: {result}")
