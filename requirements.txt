@@ -1,0 +1,13 @@
+fastapi
+asyncio
+numpy==1.26.4
+pandas==2.2.3
+protobuf==4.25.5
+requests==2.32.4
+uvicorn[standard]
+databases[asyncpg]
+asyncpg
+python-dotenv
+psycopg2-binary
+sqlalchemy[asyncio]
+pydantic-settings
