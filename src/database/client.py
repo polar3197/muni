@@ -38,9 +38,18 @@ class PostgreSQLClient():
             print(f"exception: {e}")
             return False
     
-    # async def get_current_vehicles(self, number: int):
-    #     return await anext(
-    #         fetch(
-    #             cursor
-    #         )
-    #     )
+    async def get_current_vehicles(self, number: int):
+        try:
+            ret = []
+            result = await self.get_result(self.queries.get_most_curr_vehicles())
+            column_names = list(result.keys())
+            rows = result.fetchmany(number)
+            vehicles = [
+                dict(zip(column_names, row))
+                for row in rows
+            ]
+            
+            return vehicles
+        except Exception as e:
+            print(f"exception: {e}")
+            return []
