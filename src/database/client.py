@@ -12,10 +12,12 @@ class PostgreSQLClient():
     def __init__(self, config: PostgreSQLConfig, retry_count: int = 3):
         self.connection_string = config.connection_string  # Use pre-built string
         self.retry_count = retry_count
+        self.queries = PostgreSQLQueries()
         # Don't need individual host, user, etc.
 
     @cached_property
     def engine(self):
+        print(f"conn string: {self.connection_string}")
         return create_async_engine(self.connection_string)
 
     async def get_result(self, query: str):
@@ -33,6 +35,7 @@ class PostgreSQLClient():
             row = result.fetchone()
             return row[0] == 2
         except Exception as e:
+            print(f"exception: {e}")
             return False
     
     # async def get_current_vehicles(self, number: int):
