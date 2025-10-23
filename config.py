@@ -17,7 +17,18 @@ class PostgreSQLConfig(BaseSettings):
 
     @property
     def connection_string(self) -> str:
-        return f"postgresql+asyncpg://{user}:{password}@{self.host}:{self.port}/{self.name}"
+        from urllib.parse import quote_plus
+        
+        # If no user, connect without credentials (peer auth)
+        if not self.user or self.user == "":
+            return f"postgresql+asyncpg://{self.host}:{self.port}/{self.name}"
+        
+        # If user but no password
+        if not self.password or self.password == "":
+            return f"postgresql+asyncpg://{self.user}@{self.host}:{self.port}/{self.name}"
+        
+        # Full credentials
+        return f"postgresql+asyncpg://{self.user}:{quote_plus(self.password)}@{self.host}:{self.port}/{self.name}"
 
 class S3Config(BaseSettings):
     bucket: str
