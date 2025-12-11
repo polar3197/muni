@@ -46,6 +46,13 @@ Python, FastAPI, PostgreSQL, Docker, AWS S3, JavaScript, CSS, HTML, Leaflet.js
 - Async database queries with SQLAlchemy for non-blocking I/O
 - RESTful API serving 500+ vehicle positions with <100ms latency
 
+## Performance
+
+- **Data throughput:** 520,000+ records/day sustained (~3.5M/week)
+- **Query latency:** <100ms for current vehicle positions
+- **Storage efficiency:** 80% compression with Parquet (170MB → 34MB per partition)
+- **Uptime:** 99%+ with automated Docker restarts
+
 ## API Endpoints
 
 - `GET /` - API documentation
@@ -67,5 +74,5 @@ Python, FastAPI, PostgreSQL, Docker, AWS S3, JavaScript, CSS, HTML, Leaflet.js
 ## Future Enhancements
 - **Outline route paths and show stops**
 - **Address lag** caused by rendering 500+ vehicles on GitHub Pages site..
-- **Spatial interpolation** of vehicle locations between alotted API polls. Exciting areas this explores: predictive/physics modeling, route-fitting, Kalman filtering.
-- **Natural language interface**, for example "Show me all busses currently in Russian Hill". This would simplify the interface appearance by removing explicit buttons and instead allow a chat window with prompt suggestions. Exciting areas this explores: LLM integration, advanced RESTful API calls, agents with tools.
+- **Spatial interpolation** of vehicle locations between allotted API polls. Exciting areas this explores: predictive/physics modeling, route-fitting, Kalman filtering.
+- **Natural language interface**, for example "Show me all buses currently in Russian Hill". This would simplify the interface appearance by removing explicit buttons and instead allow a chat window with prompt suggestions. Exciting areas this explores: LLM integration, advanced RESTful API calls, agents with tools.
