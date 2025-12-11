@@ -1,5 +1,5 @@
 
-### Live SFMTA MUNI Map
+# Live SFMTA MUNI Map
 
 ## Overview
 A fully automated 24/7 data pipeline processing **500,000+ vehicle records daily** to visualize San Francisco's public transit system in real-time.
