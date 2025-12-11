@@ -28,31 +28,23 @@ Python, FastAPI, PostgreSQL, Docker, AWS S3, JavaScript, CSS, HTML, Leaflet.js
 
 ## Technical Highlights
 
-  **PostgreSQL:**
-    - Weekly partitions (~3.5M records each) for efficient time-series queries
-    
-    - Composite indexes on `(route_id, timestamp)` for optimized filtering
-    
-    - Automatic partition exporting reduces query scope to past four weeks only
-    
-    - Partition management automated via weekly cron job
+**PostgreSQL:**
+- Weekly partitions (~3.5M records each) for efficient time-series queries    
+- Composite indexes on `(route_id, timestamp)` for optimized filtering    
+- Automatic partition exporting reduces query scope to past four weeks only    
+- Partition management automated via weekly cron job
   
-  **S3 Tiered Storage:**
-    - Day 0-28: PostgreSQL hot storage for fast queries
-    
-    - Day 28-118: Glacier Instant Retrieval (instant access, $0.004/GB/month)
-    
-    - Day 118+: Glacier Flexible Retrieval (3-5 hour retrieval, $0.0036/GB/month)
-    
-    - 95% storage cost reduction vs S3 Standard for long-term data
-    
-    - Automated lifecycle management with Parquet compression (80% size reduction)
-  
-  **FastAPI Backend:**
-    - Asynchronous request handling for high concurrency
-    
-    - Async database queries with SQLAlchemy for non-blocking I/O
-    - RESTful API serving 500+ vehicle positions with <100ms latency
+**S3 Tiered Storage:**
+- Day 0-28: PostgreSQL hot storage for fast queries    
+- Day 28-118: Glacier Instant Retrieval (instant access, $0.004/GB/month)    
+- Day 118+: Glacier Flexible Retrieval (3-5 hour retrieval, $0.0036/GB/month)  
+- 95% storage cost reduction vs S3 Standard for long-term data
+- Automated lifecycle management with Parquet compression (80% size reduction)
+
+**FastAPI Backend:**
+- Asynchronous request handling for high concurrency    
+- Async database queries with SQLAlchemy for non-blocking I/O
+- RESTful API serving 500+ vehicle positions with <100ms latency
 
 ## API Endpoints
 
