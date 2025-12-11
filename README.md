@@ -18,27 +18,29 @@ I was inspired to see if I could map all public transportation vehicles in San F
 Python, FastAPI, PostgreSQL, Docker, AWS S3, JavaScript, CSS, HTML, Leaflet.js
 
 ## Architecture
+
 <img width="938" height="466" alt="Screenshot 2025-12-11 at 11 59 46 AM" src="https://github.com/user-attachments/assets/02fcf6d8-ecfe-4ea7-9a0a-33d51a1ccac1" />
+
 1. Fetch Protocol Buffer from GTFS, verify and trim data to JSON format of necessary fields
-  
 2. Store vehicle information in PostgreSQL database.
-
 3. FastAPI endpoint runs continuously in Docker container, allowing frontend JavaScript to request current vehicle positions from the PostgreSQL database. The endpoint is made public via a cloudflared tunnnel.
-
 4. Once per week, the oldest partition of the vehicles table (partitions contain a weeks worth of data ~1.7m vehicle snapshots) is exported into S3 bucket.
 
 ## Technical Highlights
-  PostgreSQL:
+
+  **PostgreSQL:**
     - Weekly partitions (~3.5M records each) for efficient time-series queries
     - Composite indexes on `(route_id, timestamp)` for optimized filtering
     - Automatic partition exporting reduces query scope to past four weeks only
     - Partition management automated via weekly cron job
-  S3 Tiered Storage Strategy:
+  
+  **S3 Tiered Storage:**
     - Day 0-28: PostgreSQL hot storage for fast queries
     - Day 28-118: Glacier Instant Retrieval (instant access, $0.004/GB/month)
     - Day 118+: Glacier Flexible Retrieval (3-5 hour retrieval, $0.0036/GB/month)
     - 95% storage cost reduction vs S3 Standard for long-term data
-    - Automated lifecycle management with Parquet compression (80% size reduction) 
+    - Automated lifecycle management with Parquet compression (80% size reduction)
+  
   **FastAPI Backend:**
     - Asynchronous request handling for high concurrency
     - Async database queries with SQLAlchemy for non-blocking I/O
