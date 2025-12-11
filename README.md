@@ -22,8 +22,11 @@ Python, FastAPI, PostgreSQL, Docker, AWS S3, JavaScript, CSS, HTML, Leaflet.js
 <img width="938" height="466" alt="Screenshot 2025-12-11 at 11 59 46 AM" src="https://github.com/user-attachments/assets/02fcf6d8-ecfe-4ea7-9a0a-33d51a1ccac1" />
 
 1. Fetch Protocol Buffer from GTFS, verify and trim data to JSON format of necessary fields
+  
 2. Store vehicle information in PostgreSQL database.
+
 3. FastAPI endpoint runs continuously in Docker container, allowing frontend JavaScript to request current vehicle positions from the PostgreSQL database. The endpoint is made public via a cloudflared tunnnel.
+
 4. Once per week, the oldest partition of the vehicles table (partitions contain a weeks worth of data ~1.7m vehicle snapshots) is exported into S3 bucket.
 
 ## Technical Highlights
