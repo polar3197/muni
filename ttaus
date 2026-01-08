@@ -1,0 +1,156 @@
+[33mcommit 948de5a62d5700f9a90a4585fc43a6693c1bf800[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m
+Author: charlie <charlie.c@berkeley.edu>
+Date:   Thu Jan 8 14:14:33 2026 -0800
+
+    remove aws private key, add aws keys to config setup
+
+[33mcommit ee322f3dd1772186864643f4c3278205d3f7e94d[m
+Merge: 6218ff3 f8dec6c
+Author: charlie <charlie.c@berkeley.edu>
+Date:   Thu Jan 8 14:14:04 2026 -0800
+
+    Merge branch 'main' of github.com:polar3197/muni
+
+[33mcommit 6218ff38a4069ee28b0d9b708fa10f7896be35b4[m
+Author: charlie <charlie.c@berkeley.edu>
+Date:   Thu Jan 8 14:11:09 2026 -0800
+
+    remove aws private key, add aws keys to config setup
+
+[33mcommit f8dec6c5c7ad43b3e32aed1e10edd503bc49e83d[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Charlie Cooper <56515625+polar3197@users.noreply.github.com>
+Date:   Wed Dec 31 15:51:35 2025 -0800
+
+    Update live demo link in README.md
+
+[33mcommit d96ee9b4652ee339d49ee53c72ddad628bbdb57e[m
+Author: Charlie Cooper <56515625+polar3197@users.noreply.github.com>
+Date:   Thu Dec 11 13:33:28 2025 -0800
+
+    Update README.md
+
+[33mcommit 99f73f3e8501999fdf252979812f2cae1059c2e0[m
+Author: Charlie Cooper <56515625+polar3197@users.noreply.github.com>
+Date:   Thu Dec 11 13:31:25 2025 -0800
+
+    Update README.md
+
+[33mcommit 8d3c448ef59f7ae88bea50903eda6c4a1b47e4c4[m
+Author: Charlie Cooper <56515625+polar3197@users.noreply.github.com>
+Date:   Thu Dec 11 13:30:40 2025 -0800
+
+    Update README.md
+
+[33mcommit 7261b3013b9bd09300a99f4074efa38435cb1041[m
+Author: Charlie Cooper <56515625+polar3197@users.noreply.github.com>
+Date:   Thu Dec 11 13:28:59 2025 -0800
+
+    Update README.md
+
+[33mcommit 2d11296ce0e6649efd7c93879620a84f4b451920[m
+Author: Charlie Cooper <56515625+polar3197@users.noreply.github.com>
+Date:   Thu Dec 11 13:27:58 2025 -0800
+
+    Update README.md
+
+[33mcommit 6bcf904581c9c9e505aeb9060fb62071e9beecdf[m
+Author: Charlie Cooper <56515625+polar3197@users.noreply.github.com>
+Date:   Thu Dec 11 13:25:13 2025 -0800
+
+    Update README.md
+
+[33mcommit 6200454fce1a0bdd360c6188375c48d0540f56de[m
+Author: Charlie Cooper <56515625+polar3197@users.noreply.github.com>
+Date:   Thu Dec 11 13:22:49 2025 -0800
+
+    Update README.md
+
+[33mcommit 651f3bdb97cf9c19423b2bb82351a511e8e6859f[m
+Author: Charlie Cooper <56515625+polar3197@users.noreply.github.com>
+Date:   Thu Dec 11 13:21:54 2025 -0800
+
+    Update README.md
+
+[33mcommit 2bce18dc872aa912123ea7f48df8b806f1d3b748[m
+Author: Charlie Cooper <56515625+polar3197@users.noreply.github.com>
+Date:   Thu Dec 11 13:20:13 2025 -0800
+
+    Update README.md
+
+[33mcommit 388f55fca45ca39b28b4437ef337359ee8d3264e[m
+Author: Charlie Cooper <56515625+polar3197@users.noreply.github.com>
+Date:   Thu Dec 11 13:19:59 2025 -0800
+
+    Update README.md
+
+[33mcommit 9ed2640e408cfa650cf3ae9727be961d844457d3[m
+Author: Charlie Cooper <56515625+polar3197@users.noreply.github.com>
+Date:   Thu Dec 11 13:16:24 2025 -0800
+
+    Update README.md
+
+[33mcommit a17c88c4e49e72bcb968855fab123454bdc86cd2[m
+Author: Charlie Cooper <56515625+polar3197@users.noreply.github.com>
+Date:   Thu Dec 11 12:10:14 2025 -0800
+
+    Update README.md
+
+[33mcommit 13a7709399c60c5a8025036f44d6a20cde219e89[m
+Author: Your Name <charlie.c@berkeley.edu>
+Date:   Fri Nov 7 11:46:35 2025 -0800
+
+    frontend
+
+[33mcommit a074314aefebd5cdff7a5eb6a704be7ab65f6a6b[m
+Author: Your Name <charlie.c@berkeley.edu>
+Date:   Fri Nov 7 11:46:09 2025 -0800
+
+    frontend
+
+[33mcommit f4549aaaef3275aff1040cfd7a7147ca0bce300a[m
+Author: Your Name <charlie.c@berkeley.edu>
+Date:   Wed Oct 22 23:39:14 2025 -0700
+
+    h
+
+[33mcommit eeb2081d940a6d9b886e0c2e11a6d0bba2f3b02a[m
+Author: charlie <charlie.c@berkeley.edu>
+Date:   Wed Oct 22 23:34:14 2025 -0700
+
+    yay
+
+[33mcommit b98b74864a2cdaa015c4915c29a4b377cbb843ff[m
+Author: Your Name <charlie.c@berkeley.edu>
+Date:   Wed Oct 22 23:25:07 2025 -0700
+
+    yay
+
+[33mcommit e065e6c02130a7f808f7175b315b68edd8cf0179[m
+Author: charlie <charlie.c@berkeley.edu>
+Date:   Wed Oct 22 23:22:53 2025 -0700
+
+    m
+
+[33mcommit 607d5642a7cd6f7ffe44c5f2b26bb2ed0a4e1609[m
+Author: Your Name <charlie.c@berkeley.edu>
+Date:   Wed Oct 22 23:16:13 2025 -0700
+
+    fix env vars
+
+[33mcommit 8d90ae871edd965154e18b35e319ef782a85e8d9[m
+Author: Your Name <charlie.c@berkeley.edu>
+Date:   Wed Oct 22 22:51:55 2025 -0700
+
+    no .env
+
+[33mcommit b12b7776c9c300425cf480995bc230d2599937d5[m
+Author: Your Name <charlie.c@berkeley.edu>
+Date:   Wed Oct 22 22:50:00 2025 -0700
+
+    configs
+
+[33mcommit dd2f24ad503262f57e0883b3f54b12642bba6005[m
+Author: Your Name <charlie.c@berkeley.edu>
+Date:   Wed Oct 22 21:22:35 2025 -0700
+
+    first commit

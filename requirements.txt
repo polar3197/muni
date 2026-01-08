@@ -12,3 +12,8 @@ python-dotenv
 psycopg2-binary
 sqlalchemy[asyncio]
 pydantic-settings
+gtfs-realtime-bindings
+elasticsearch
+pyarrow
+openai
+boto3
