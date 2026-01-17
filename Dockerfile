@@ -1,17 +1,17 @@
 FROM python:3.11-slim
 
-# Set work directory
 WORKDIR /app
 
-# Copy all application code first (including setup.py)
-COPY ./ /app/
-
-# Install dependencies
+# Copy and install requirements (cached layer)
+COPY ./src/api/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Install the package itself
-RUN pip install -e .
+# Copy setup.py and install package in editable mode
+COPY setup.py .
+COPY src/ /app/src/
+RUN pip install --no-cache-dir -e .
 
+# Python path handles imports
 ENV PYTHONPATH=/app
 
-CMD ["python", "hello.py"]
+CMD ["uvicorn", "src.api.api:app", "--host", "0.0.0.0", "--port", "8000"]

@@ -7,7 +7,6 @@ from functools import partial, cached_property
 from urllib.parse import quote_plus
 from datetime import datetime, timedelta
 from typing import Optional, List
-import pyarrow
 import pandas as pd
 import asyncio
 import pytz
@@ -68,6 +67,25 @@ class PostgreSQLClient():
         except Exception as e:
             print(f"exception: {e}")
             return False
+
+    async def get_static_route_list(self):
+        try:
+            result = await self.get_result(self.queries.get_static_route_list())
+            rows = result.fetchall()
+            return [row.route_id for row in rows]
+            # return [dict(row) for row in rows]
+        except Exception as e:
+            print(f"exception: {e}")
+            return []
+
+    async def get_static_nhood_list(self):
+        try:
+            result = await self.get_result(self.queries.get_static_nhood_list())
+            rows = result.fetchall()
+            return [row.nhood for row in rows]
+        except Exception as e:
+            print(f"exception: {e}")
+            return []
 
     async def get_oldest_partition_name(self):
         """

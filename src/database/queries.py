@@ -14,12 +14,18 @@ class PostgreSQLQueries():
 
     def get_table_contents(self, table_name):
         return f"SELECT * FROM {table_name};"
+    
+    def get_static_route_list(self):
+        return f"SELECT DISTINCT route_id FROM routes;"
+    
+    def get_static_nhood_list(self):
+        return f"SELECT DISTINCT nhood FROM neighborhoods;"
 
     def get_table_size(self, table_name):
         return f"SELECT pg_size_pretty(pg_total_relation_size('{table_name}'));"
 
     def get_neighborhood_border(self, nbrhd):
-        return f"SELECT nhood, wkb_geometry FROM neighborhoods WHERE nhood == {nbrhd};"
+        return f"SELECT nhood, wkb_geometry FROM neighborhoods WHERE nhood = {nbrhd};"
         
     def get_most_curr_vehicles(self):
         return f"SELECT * FROM vehicles WHERE timestamp = (SELECT MAX(timestamp) FROM vehicles);"

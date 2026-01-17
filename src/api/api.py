@@ -4,31 +4,31 @@ from database.client import PostgreSQLClient
 from config import PostgreSQLConfig
 from typing import Optional
 from pydantic import BaseModel
-from openai import AsyncOpenAI
+# from openai import AsyncOpenAI
 import os
 
 config = PostgreSQLConfig()
 pg_client = PostgreSQLClient(config)
 
 # move to openai config soon
-client = AsyncOpenAI()
-tools = [
-    {
-        "type": "function",
-        "name": "get_vehicle_on_route",
-        "description": "Returns a list of vehicle IDs that are currently on route R.",
-        "parameters": {
-            "type": "object",
-            "properties": {
-                "sign": {
-                    "type": "string",
-                    "description": "An astrological sign like Taurus or Aquarius",
-                },
-            },
-            "required": ["sign"],
-        },
-    },
-]
+# client = AsyncOpenAI()
+# tools = [
+#     {
+#         "type": "function",
+#         "name": "get_vehicle_on_route",
+#         "description": "Returns a list of vehicle IDs that are currently on route R.",
+#         "parameters": {
+#             "type": "object",
+#             "properties": {
+#                 "sign": {
+#                     "type": "string",
+#                     "description": "An astrological sign like Taurus or Aquarius",
+#                 },
+#             },
+#             "required": ["sign"],
+#         },
+#     },
+# ]
 # =====
 
 class promptRequest(BaseModel):
@@ -66,11 +66,11 @@ async def get_current_vehicles(route_id: Optional[str] = None):
     except Exception as e:
         return {"status": "unhealthy", "error": str(e)}
 
-@app.get("/neighborhoods/{name}")
+@app.get("/neighborhoods/{nbrhd}")
 async def get_neighborhood_border(nbrhd: str):
     """Get the latest position for each vehicle, optionally filtered by route"""
     try:
-        multigon = await pg_client.get_nbrhd(name)
+        multigon = await pg_client.get_nbrhd(nbrhd)
         return multigon
     except Exception as e:
         return {"status": "unhealthy", "error": str(e)}
@@ -82,6 +82,22 @@ async def get_stops_on_route(route_id: str):
         return stops
     except Exception as e:
         return {"status": "unhealthy", "error": str(e)}
+
+@app.get("/routes")
+async def get_static_route_list():
+    try:
+        routes = await pg_client.get_static_route_list()
+        return routes
+    except Exception as e:
+        return {"status": "unhealthy", "error": str(e)}  
+
+@app.get("/neighborhoods")
+async def get_static_nhood_list():
+    try:
+        nhoods = await pg_client.get_static_nhood_list()
+        return nhoods
+    except Exception as e:
+        return {"status": "unhealthy", "error": str(e)}  
 
 
 # @app.post("/api/llm-query")

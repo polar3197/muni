@@ -3,13 +3,13 @@ services:
     build: .
     container_name: muni-api
     volumes:
-      - ./src:/src
+      - ./src:/app/src
     ports:
       - "8000:8000"
     env_file:
       - .env  # ← Load entire .env file
     environment:
-      PYTHONPATH: /src/api/
+      PYTHONPATH: /app/src
       DB_HOST: 172.18.0.1  # Override just the host
     restart: unless-stopped
-    command: uvicorn src.api.api:app --host 0.0.0.0 --port 8000 --reload
+    command: uvicorn src.api.api:app --host 0.0.0.0 --port 8000 --reload --reload-dir /app/src --reload-delay 0.5
