@@ -9,3 +9,6 @@ asyncpg
 python-dotenv
 sqlalchemy[asyncio]
 pydantic-settings
+redis
+pytz
+gunicorn

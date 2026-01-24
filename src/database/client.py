@@ -8,6 +8,7 @@ from urllib.parse import quote_plus
 from datetime import datetime, timedelta
 from typing import Optional, List
 import pandas as pd
+import json
 import asyncio
 import pytz
 
@@ -19,6 +20,7 @@ class PostgreSQLClient():
         self.connection_string = config.connection_string  # Use pre-built string
         self.retry_count = retry_count
         self.queries = PostgreSQLQueries()
+        self._engine = None
         # Don't need individual host, user, etc.
 
     @cached_property
@@ -31,25 +33,61 @@ class PostgreSQLClient():
         Returns:
             - A sqlalchemy engine
         """
-        return create_async_engine(self.connection_string())
+        print(self.connection_string)
+        if self._engine is None:
+            self._engine = create_async_engine(
+                self.connection_string,
+                # Connection pool settings
+                pool_size=20,              # Base connections
+                max_overflow=80,           # Extra connections when needed
+                pool_timeout=30,           # Wait time for connection
+                pool_recycle=3600,         # Recycle connections after 1 hour
+                pool_pre_ping=True,        # Check connection health
+                echo=False,                # Set True for debugging
+                # Performance settings
+                pool_use_lifo=True,        # Reuse most recent connections
+            )
+        return self._engine
 
-    async def get_result(self, query: str):
+    async def get_result(self, query: str, params: dict = {}):
         """
-        Merges engine and query to return result
+        Executes SELECT queries
 
         Args:
-            - postgres query
+            - query: postgres SELECT query
 
         Returns:
             - result object from query
         """
         try:
             async with self.engine.begin() as conn:
-                result = await conn.execute(text(query))
+                result = await conn.execute(text(query), params)
                 return result
         except Exception as e:
-            #LOG HERE
             print(f"Running query '{query}' failed -- {e}")
+            raise
+
+    # async def write_post(self, 
+    #     query: str,
+    #     params: dict = None
+    #     ):
+    #     """
+    #     Executes write queries with parameters (INSERT/UPDATE/DELETE)
+
+    #     Args:
+    #         - query: postgres query with :param placeholders
+    #         - params: dict of parameter values
+
+    #     Returns:
+    #         - result object from query
+    #     """
+    #     try:
+    #         async with self.engine.begin() as conn:
+    #             result = await conn.execute(text(query), params or {})
+    #             return result
+    #     except Exception as e:
+    #         print(f"Running query '{query}' failed -- {e}")
+    #         raise
 
     async def ping(self):
         """
@@ -87,6 +125,40 @@ class PostgreSQLClient():
             print(f"exception: {e}")
             return []
 
+    async def get_active_route_paths(self, route_ids):
+        try:
+            result = await self.write_post(self.queries.get_active_route_paths(route_ids))
+            print(result)
+            rows = result.fetchall()
+            return [
+                {
+                    "route_id": row.route_id,
+                    "direction_id": row.direction_id,
+                    "shape_id": row.shape_id,
+                    "route_line": json.loads(row.route_line)
+                } 
+                for row in rows]
+        except Exception as e:
+            print(f"exception: {e}")
+            return []
+    
+    async def get_all_route_paths(self):
+        try:
+            result = await self.get_result(self.queries.get_all_route_paths())
+            print(result)
+            rows = result.fetchall()
+            return [
+                {
+                    "shape_id": row.shape_id,
+                    "route_id": row.route_id,
+                    "direction_id": row.direction_id,
+                    "shape_polyline": row.shape_polyline
+                } 
+                for row in rows]
+        except Exception as e:
+            print(f"exception: {e}")
+            return []
+
     async def get_oldest_partition_name(self):
         """
         Tests connection to db
@@ -102,8 +174,21 @@ class PostgreSQLClient():
         except Exception as e:
             print(f"exception: {e}")
             return None
+
+    async def get_nearby_shapes(self, lon: float, lat: float):
+        try:
+            result = await self.get_result(
+                self.queries.get_nearby_shapes(lon, lat),
+                {"lon": lon, "lat": lat, "distance": 50}
+            )
+            rows = result.fetchall()
+            # Extract just the shape_id values from Row objects
+            return [row[0] for row in rows]
+        except Exception as e:
+            print(f"exception: {e}")
+            return None
     
-    async def get_current_vehicles(self, number: int):
+    async def get_current_vehicles(self, number: int) -> List[dict]:
         """
         returns vehicles from most recent timestamp
 
@@ -113,7 +198,7 @@ class PostgreSQLClient():
             A list of dictionaries, each representing a vehicle
         """
         try:
-            result = await self.get_result(self.queries.get_most_curr_vehicles())
+            result = await self.get_result(self.queries.get_curr_vehicles())
             column_names = list(result.keys())
             if number == -1:
                 rows = result.fetchall()

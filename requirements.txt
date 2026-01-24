@@ -12,5 +12,5 @@ sqlalchemy[asyncio]
 pydantic-settings
 gtfs-realtime-bindings
 pyarrow
-openai
 boto3
+redis

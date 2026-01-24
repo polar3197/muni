@@ -12,7 +12,7 @@ class GTFSFetcher():
         self.static_url = f"http://api.511.org/transit/datafeeds?api_key={self.api_key}&operator_id=RG"
         self.live_url = f"http://api.511.org/transit/vehiclepositions?api_key={self.api_key}&agency=SF"
 
-    def fetch_live_vehicles(self) -> Optional[List[dict]]:
+    def fetch_live_vehicles(self) -> Optional[List[List[dict]]]:
         """
         Fetches current vehicle records from SFMTA GTFS API
 
@@ -28,16 +28,33 @@ class GTFSFetcher():
             feed = gtfs_realtime_pb2.FeedMessage()
             feed.ParseFromString(response.content)
             vehicles = []
+            # vehicles_for_redis = []
             # iterate through entities (potential vehicles)
             for entity in feed.entity:
+                # validate each vehicle
                 vehicle = self.extract_validate_vehicle(entity)
+                
                 # check if vehicle was complete
                 if vehicle:
                     vehicles.append(vehicle)
-            return vehicles
+
+                    # copy truncated version of vehicle for hot data in Redis
+                    # vehicle_for_redis = {
+                    #     "route_id": vehicle["route_id"],
+                    #     "vehicle_id": vehicle["vehicle_id"], 
+                    #     "lon": vehicle["lon"], 
+                    #     "lat": vehicle["lat"], 
+                    #     "timestamp": vehicle["timestamp"].isoformat(), 
+                    #     "occupancy": vehicle["occupancy"]
+                    # }
+                    # if vehicle_for_redis:
+                    #     vehicles_for_redis.append(vehicle_for_redis)
+
+            return vehicles # (vehicles, vehicles_for_redis)
         except Exception as e:
             # LOGGING HERE
             print(f"exception in fetching live vehicles: {e}")
+            return ([], [])
 
     def extract_validate_vehicle(self, entity) -> Optional[dict]:
         """
@@ -53,7 +70,7 @@ class GTFSFetcher():
         if (not entity.HasField("vehicle") or
            not entity.vehicle.HasField("trip") or
            not entity.vehicle.HasField("position")):
-            #print(f"non-vehicle entitity: {entity}")
+            # print(f"non-vehicle entitity: {entity}")
             return None
         try:
             # Time conversion
@@ -96,11 +113,14 @@ class GTFSFetcher():
                 'current_stop_sequence': current_stop_sequence,
                 'current_status': current_status,
                 'stop_id': stop_id,
-                'occupancy': occupancy,
+                'occupancy': occupancy
             }
+
         except Exception as e:
             print(f"Couldn't fetch: {e}")
             return None
+
+    
 
 
     # def fetch_static_transit_data(self) -> 

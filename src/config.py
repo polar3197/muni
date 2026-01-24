@@ -15,7 +15,7 @@ class PostgreSQLConfig(BaseSettings):
         extra="ignore"
     )
 
-    #@property
+    @property
     def connection_string(self, asynch=True) -> str:
         from urllib.parse import quote_plus
         

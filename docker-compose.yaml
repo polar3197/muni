@@ -1,5 +1,5 @@
 services:
-  api:
+  muni-api:
     build: .
     container_name: muni-api
     volumes:
@@ -7,9 +7,25 @@ services:
     ports:
       - "8000:8000"
     env_file:
-      - .env  # ← Load entire .env file
+      - .env
     environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
       PYTHONPATH: /app/src
-      DB_HOST: 172.18.0.1  # Override just the host
+      DB_HOST: 172.18.0.1 # rpi IP, overrides value of localhost stored in .env
+    depends_on:
+      - redis
     restart: unless-stopped
-    command: uvicorn src.api.api:app --host 0.0.0.0 --port 8000 --reload --reload-dir /app/src --reload-delay 0.5
+    # command is in overlay files
+  
+  redis:
+    container_name: redis
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+
+volumes:
+  redis_data:
